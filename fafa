@@ -1,0 +1,23 @@
+#include <iostream>
+#include "Excel.h"
+using namespace std;
+
+int main() {
+    // Открытие файла Excel
+    ExcelPtr pXL = CreateOleObject("Excel.Application");
+    pXL->Workbooks->Open("example.xlsx");
+
+    // Чтение данных из листа
+    SheetPtr pSheet = pXL->ActiveWorkbook->Sheets[1];
+    RangePtr pRange = pSheet->UsedRange;
+    for (int i = 1; i <= pRange->Rows->Count; ++i) {
+        for (int j = 1; j <= pRange->Columns->Count; ++j) {
+            cout << pRange->Cells[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    // Объединение данных
+    string result = "";
+    for (int i = 0; i < 5; ++i) {
+        result += pRange->Cells[1][
